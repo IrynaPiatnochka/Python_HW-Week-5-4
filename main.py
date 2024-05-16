@@ -3,6 +3,7 @@ from user_fetch import view_user, view_all_users
 from book_add import add_book
 from book_fetch import view_book, view_all_books
 from borrow_rent_book import borrow_book, return_book
+from datetime import datetime
 
 
 def user_menu():
@@ -46,11 +47,18 @@ def book_menu():
         if action == "1":
             add_book()
         elif action == "2":
-            borrow_book(conn, user_id, book_id, borrow_date)
+            user_id = input('What is your ID? ')
+            book_title = input('What is the book title you want to borrow? ')
+            borrow_date = datetime.strptime(input('What is the borrow date(format YYYY-MM-DD: '), '%Y-%m-%d')
+            borrow_book(user_id, book_title, borrow_date) 
         elif action == "3":
-            return_book(conn, user_id, book_id, return_date)
+            user_id = input('What is your ID? ')
+            book_title = input('What is the book title you want to return? ')
+            return_date = datetime.strptime(input('What is the return date(format YYYY-MM-DD: '), '%Y-%m-%d')
+            return_book(user_id, book_title, return_date) 
         elif action == "4":
-            view_book()
+            title = input('What is the title of the book? ')
+            view_book(title)
         elif action == "5":
             view_all_books()
         elif action == "6":
@@ -61,7 +69,8 @@ def book_menu():
 
 while True:
     action = input(
-        """
+        """2
+    
     1.) User Actions
     2.) Book Actions
     3.) Quit
