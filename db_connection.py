@@ -4,7 +4,6 @@ from mysql.connector import Error
 def connect_db():
     db_name = "library_sys" 
     user = "root" 
-    # password = "Iryna24!" 
     host = "127.0.0.1" 
 
     
@@ -12,7 +11,6 @@ def connect_db():
         conn = mysql.connector.connect(
             database=db_name,
             user=user,
-            # password=password,
             host=host
         )
 
