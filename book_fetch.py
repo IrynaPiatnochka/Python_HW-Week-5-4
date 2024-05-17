@@ -30,7 +30,7 @@ def view_book(title):
 
             query = "SELECT * FROM Books WHERE title = %s;"
 
-            cursor.execute(query, (title))
+            cursor.execute(query, (title,))
 
             print(cursor.fetchall())
 

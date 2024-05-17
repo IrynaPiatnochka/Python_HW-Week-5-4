@@ -6,31 +6,31 @@ def borrow_book(user_id, book_title, borrow_date):
     try:
         cursor = conn.cursor()
         cursor.execute(
-            "SELECT availability FROM books WHERE title = %s LIMIT 0,1;", (book_title,)
+            "SELECT availability FROM books WHERE title = %s LIMIT 1;", (book_title,)
         )
-        availability = cursor.fetchone()[0]
+        result = cursor.fetchone()
+        if result is None:
+            print("Book not found.")
+            return
+        availability = result[0]
         print(availability)
         if availability == 0:
             print("Book is not available.")
             return
-
         cursor.execute(
             "INSERT INTO borrowed_books (user_id, title, borrow_date) VALUES (%s, %s, %s)",
             (user_id, book_title, borrow_date),
         )
-
         cursor.execute(
-            "UPDATE books SET availability = 0 WHERE title = %s", (book_title)
+            "UPDATE books SET availability = 0 WHERE title = %s", (book_title,)
         )
-
         conn.commit()
         print("Book borrowed successfully.")
-
     except Error as e:
         print(f"Error: {e}")
-
     finally:
         cursor.close()
+        conn.close()
 
 
 def return_book(user_id, book_title, return_date):
@@ -53,7 +53,7 @@ def return_book(user_id, book_title, return_date):
         )
 
         cursor.execute(
-            "UPDATE books SET availability = 1 WHERE title = %s", (book_title)
+            "UPDATE books SET availability = 1 WHERE title = %s", (book_title,)
         )
 
         conn.commit()
